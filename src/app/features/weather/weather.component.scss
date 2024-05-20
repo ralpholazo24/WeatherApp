@@ -1,0 +1,28 @@
+.search-bar-container {
+    padding: 1rem 3rem 1rem 1rem;
+    background: #eaf1fb;
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    > input {
+        font-size: 1.1rem;
+        outline: none;
+        border: none;
+        background: inherit;
+        margin: 0 .5rem;
+    }
+}
+
+.main-card {
+    border-radius: 2rem;   
+    background: linear-gradient(180deg, rgba(44,103,242,1) 0%, rgba(98,207,244,1) 100%);     
+}
+
+.temp-card {
+    border-radius: 1rem;
+    color: #fff;
+    border: 1px solid #fff;
+    background: none;
+}

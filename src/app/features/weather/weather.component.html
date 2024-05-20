@@ -1,0 +1,99 @@
+
+<div class="px-4 py-3 my-5">    
+    <h1 class="display-6 text-primary fw-bold text-center mb-3">Weather Today</h1>
+    <div class="col-lg-6 mx-auto">
+        <div class="search-bar-container">
+            <i class="bi bi-search"></i>
+            <input autofocus class="w-100" placeholder="Search City" type="text" [(ngModel)]="city" (keydown.enter)="searchCityWeather()"> 
+        </div>     
+           
+        @if (errorMessage) {
+            <div class="alert alert-danger mt-2" role="alert">
+                <small class="text-danger">{{ errorMessage }}</small> 
+            </div>
+        }
+    </div>
+    <div class="col-lg-6 mt-4 mx-auto">
+        @if (weatherData) {
+            <div class="card main-card border-0 p-lg-3 p-2">                    
+               <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            
+                            <h6 class="text-white"><i class="bi bi-geo-alt"></i> {{ weatherData.city }}, {{ weatherData.country }}</h6>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-md-end">
+                            <h6 class="text-white">{{ weatherData.currentDate * 1000 | date:'yyyy-MM-dd' }}</h6>
+                        </div>
+                    </div>                
+                    <div class="row mt-4">
+                        <div class="col-lg-6 mx-auto">                  
+                            <div class="d-flex justify-content-center align-items-center">                                
+                                <h3 class="text-white text-capitalize">{{ weatherData.description }}</h3>                                  
+                            </div>                    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mx-auto">                  
+                            <div class="d-flex justify-content-center align-items-center">                                                                
+                                <img class="weather-icon" src="https://openweathermap.org/img/wn/{{weatherData.icon}}@2x.png">        
+                            </div>                    
+                        </div>
+                    </div>                    
+                    <div class="row mb-5">
+                        <div class="col-lg-6 mx-auto text-center">
+                            <h1 class="text-temp display-1 text-white">{{ weatherData.temperature | number : '1.0-0' }}°C</h1>
+                            <h5 class="text-white">Feels Like {{ weatherData.feelsLike | number : '1.0-0' }}°</h5>
+                            <h6 class="text-white">H: {{ weatherData.maxTemp | number : '1.0-0' }}° L: {{ weatherData.minTemp | number : '1.0-0' }}°</h6>
+                        </div>                        
+                    </div>           
+                    <div class="row">
+                        <div class="offset-md-3 col-md-3 offset-sm-2 col-sm-4 col-6 mb-4">
+                            <div class="temp-card card">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white"><i class="bi bi-brightness-high-fill"></i> Sunrise</h6>
+                                    <h3 class="text-white">{{ weatherData.sunrise * 1000 | date : 'HH:mm' }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-6 mb-4">
+                            <div class="temp-card card">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white"><i class="bi bi-moon-fill"></i> Sunset</h6>
+                                    <h3 class="text-white">{{ weatherData.sunset * 1000 | date : 'HH:mm' }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                             
+                    <div class="row">
+                        <div class="offset-md-3 col-md-3 offset-sm-2 col-sm-4 col-6 mb-4">
+                            <div class="temp-card card">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white"><i class="bi bi-speedometer"></i>Wind Speed</h6>
+                                    <h3 class="text-white">{{ weatherData.windSpeed }}m/s</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-6 mb-4">
+                            <div class="temp-card card">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white"><i class="bi bi-wind"></i> Humidity</h6>
+                                    <h3 class="text-white">{{ weatherData.humidity | number : '1.0-0' }}%</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                 
+               </div>             
+            </div>    
+        }
+    </div>
+    
+</div>
+
+
+
+
+
+
+
+ 
