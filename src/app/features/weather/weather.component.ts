@@ -26,23 +26,26 @@ export class WeatherComponent {
   }
 
   getWeatherData(city: string): void {
+    this.errorMessage = "";
     const data = this.weatherService.getCachedWeather(city);
     if (data) {
       this.weatherData = data as WeatherData;
       this.city = "";
-      this.errorMessage = "";
     } 
     else {
       this.weatherService.getWeather(city).subscribe(
         data => {
-          this.weatherData = data;
-          this.weatherService.setCachedWeather(city, this.weatherData);  
-          this.city = "";
-          this.errorMessage = "";
+          if (data) {
+            this.weatherData = data;
+            this.weatherService.setCachedWeather(city, this.weatherData);  
+            this.city = "";
+          } else {
+            this.errorMessage = "City not found.";
+          }
         },
         error => {
           console.error('Error fetching weather data', error);
-          this.errorMessage = "City not found."
+          this.errorMessage = "Internal server error.";
         }
       );
     }
