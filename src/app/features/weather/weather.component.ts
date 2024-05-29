@@ -1,25 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { WeatherService } from '../../../services/weather.service';
 import { WeatherData } from '../../../types/type';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [FormsModule, CommonModule],
-  providers: [WeatherService],
+  imports: [FormsModule, CommonModule],  
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss'
 })
 export class WeatherComponent { 
   errorMessage: string = '';
-  city: string = 'Copenhagen';
-  weatherData!: WeatherData;
-  
-  constructor(private weatherService: WeatherService) {
-    this.searchCityWeather();
-  }
+  city: string = '';
+  weatherData!: WeatherData;  
+  private weatherService = inject(WeatherService);
+
+  constructor() { }
 
   searchCityWeather() {
     this.getWeatherData(this.city);
@@ -33,8 +33,8 @@ export class WeatherComponent {
       this.city = "";
     } 
     else {
-      this.weatherService.getWeather(city).subscribe(
-        data => {
+      this.weatherService.getWeather(city).subscribe({
+        next: (data) => {
           if (data) {
             this.weatherData = data;
             this.weatherService.setCachedWeather(city, this.weatherData);  
@@ -43,11 +43,10 @@ export class WeatherComponent {
             this.errorMessage = "City not found.";
           }
         },
-        error => {
+        error: (error) => {
           console.error('Error fetching weather data', error);
-          this.errorMessage = "Internal server error.";
         }
-      );
+      });
     }
   }   
 }

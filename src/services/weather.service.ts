@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../environments/environment';
 import { WeatherData } from '../types/type';
@@ -8,28 +8,19 @@ import { DOCUMENT } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
-export class WeatherService {
-  
+export class WeatherService {  
   private localStorage: Storage | undefined;
   private localStorageKey = 'weatherData';
   private baseUrl: string = environment.apiurl;
-  cities: any;
+  private http = inject(HttpClient);
   
-  constructor(private http: HttpClient,
-    @Inject(DOCUMENT) private document: Document) { 
-      this.localStorage = document.defaultView?.localStorage;
-    }
+  constructor(@Inject(DOCUMENT) private document: Document) { 
+    this.localStorage = document.defaultView?.localStorage;
+  }
 
   public getWeather(location: string): Observable<WeatherData> {
     const url = `${this.baseUrl}/weather?city=${location}`;
-    return this.http.get<WeatherData>(url)
-      .pipe(
-        map(data => this.handleResponse(data)),
-      );
-  }
-  
-  private handleResponse(data: any): WeatherData {    
-    return data as WeatherData;
+    return this.http.get<WeatherData>(url);
   }
 
   private getWeatherData(): WeatherData[] | null {
